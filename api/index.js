@@ -32,7 +32,7 @@ app.use(express.json());
 
 // Routes — no /api prefix needed here, Vercel handles that
 app.use('/rooms', roomRoutes);
-app.use('/', paymentRoutes);
+// app.use('/', paymentRoutes);
 
 // Basic route at /api/
 app.get('/', (req, res) => {
