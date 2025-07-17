@@ -41,23 +41,22 @@
 
 // // Export ONLY the handler for Vercel serverless function
 // module.exports = serverless(app);
+
 const serverless = require('serverless-http');
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
+const testRoutes = require('../controllers/testController');
 
 const app = express();
-const pool = require('../db'); // your Pool instance
-const roomRoutes = require('../routes/roomRoutes');
-
 app.use(cors());
 app.use(express.json());
 
-// Your routes (no need to connect on cold start)
-app.use('/rooms', roomRoutes);
+// Test route
+app.use('/test', testRoutes);
 
+// Home route
 app.get('/', (req, res) => {
-  res.send('Welcome to the Union of Scientists in Bulgaria Hotel API');
+  res.send('API is up and running!');
 });
 
 module.exports = serverless(app);
