@@ -44,26 +44,17 @@
 const serverless = require('serverless-http');
 const express = require('express');
 const cors = require('cors');
+const testRoutes = require('../controllers/testController');
 
-// Express app
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
-const testRoutes = require('../controllers/testController');
-const roomRoutes = require('../routes/roomRoutes'); // Optional: Enable later
-
-// Test route
+// ✅ This route should be reachable at: /api/test/ping
 app.use('/test', testRoutes);
 
-// Add room routes once test is confirmed working
-// app.use('/rooms', roomRoutes);
-
-// Home route
 app.get('/', (req, res) => {
-  res.send('API is up and running! 🎉');
+  res.send('API is up and running!');
 });
 
-// Export for Vercel
 module.exports = serverless(app);
