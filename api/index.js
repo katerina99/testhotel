@@ -4,9 +4,9 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-const pool = require('../db'); // Make sure this exports the Pool correctly
+const pool = require('../db'); // your Pool instance
 
-// Connect once when cold-started
+// Connect once at cold start (optional, you can remove this block if problematic)
 pool.connect((err, client, release) => {
   if (err) {
     console.error('Error acquiring client', err.stack);
@@ -26,17 +26,16 @@ pool.connect((err, client, release) => {
 app.use(cors());
 app.use(express.json());
 
-// Routes
-const roomRoutes = require('../routes/roomRoutes');
-const paymentRoutes = require('../routes/paymentRoutes');
-
+// Routes — NOTE: remove '/api' prefix here!
+// Vercel mounts this entire app at /api automatically,
+// so your routes here should be relative to /api root.
 app.use('/rooms', roomRoutes);
 app.use('/', paymentRoutes);
 
-// Basic route
+// Basic route at /api/
 app.get('/', (req, res) => {
   res.send('Welcome to the Union of Scientists in Bulgaria Hotel API');
 });
 
-// ✅ This is the required export for Vercel:
-module.exports.handler = serverless(app);
+// Export ONLY the handler for Vercel serverless function
+module.exports = serverless(app);
