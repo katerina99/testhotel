@@ -6,7 +6,11 @@ require('dotenv').config();
 const app = express();
 const pool = require('../db'); // your Pool instance
 
-// Connect once at cold start (optional, you can remove this block if problematic)
+// Import routes
+const roomRoutes = require('../routes/roomRoutes');
+const paymentRoutes = require('../routes/paymentRoutes');
+
+// Connect once at cold start (optional)
 pool.connect((err, client, release) => {
   if (err) {
     console.error('Error acquiring client', err.stack);
@@ -26,9 +30,7 @@ pool.connect((err, client, release) => {
 app.use(cors());
 app.use(express.json());
 
-// Routes — NOTE: remove '/api' prefix here!
-// Vercel mounts this entire app at /api automatically,
-// so your routes here should be relative to /api root.
+// Routes — no /api prefix needed here, Vercel handles that
 app.use('/rooms', roomRoutes);
 app.use('/', paymentRoutes);
 
