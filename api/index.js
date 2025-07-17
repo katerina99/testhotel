@@ -35,7 +35,7 @@ app.use('/api', paymentRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the Union of Scientists in Bulgaria Hotel API' });
+    res.send("'Welcome to the Union of Scientists in Bulgaria Hotel API'")
 });
 
 // Export wrapped Express app for Vercel
